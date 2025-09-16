@@ -100,4 +100,12 @@ public class TicketBooking {
         }
     }
 
+    private void availableTickets(){
+        System.out.println("Available Berths: "+availableBerth.size());
+        System.out.println("Available RAC Tickets: " + (1 - racQueue.size()));
+        System.out.println("Available Waiting List Tickets: "+(1 - waitingList.size()));
+    }
+
+    
+
 }
