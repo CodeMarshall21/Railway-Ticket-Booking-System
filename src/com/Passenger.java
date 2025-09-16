@@ -19,6 +19,6 @@ public class Passenger {
 
     @Override
     public String toString(){
-        return "TicketId: " + ticketId + ", Name: " + name + "Age: " + age + ", Gender: " + gender + ", Alloted Berth: "+allotedBerth;
+        return "TicketId: " + ticketId + ", Name: " + name + ", Age: " + age + ", Gender: " + gender + ", Alloted Berth: "+allotedBerth;
     }
 }

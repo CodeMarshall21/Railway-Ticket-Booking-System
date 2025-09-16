@@ -14,8 +14,12 @@ public class TicketBooking {
 
     private int ticketCounter = 1;
 
-    private void bookTicket(String name, int age, String gender, String berthPreference){
+    public void bookTicket(String name, int age, String gender, String berthPreference){
+
+
         String ticketId = "T" + ticketCounter++;
+
+
         Passenger passenger;
 
         if(!availableBerth.isEmpty()){
@@ -35,7 +39,7 @@ public class TicketBooking {
             System.out.println("Ticket in RAC : "+passenger);    // Prints the details of the Passenger
 
         }else if(waitingList.size() < 1){  // if the racQueue is full
-            passenger = new Passenger(name, age, gender, berthPreference, "RAC", ticketId);
+            passenger = new Passenger(name, age, gender, berthPreference, "Waiting List", ticketId);
 
             waitingList.offer(passenger);                                 // Adds the passenger in tha tail of the waitingList queue
             System.out.println("Ticket in Waiting List : "+passenger);    // Prints the details of the Passenger
@@ -47,7 +51,7 @@ public class TicketBooking {
 
     }
 
-    private String allotBerth(String gender, int age ,String berthPreference){
+    public String allotBerth(String gender, int age ,String berthPreference){
         if(age > 60 || gender.equalsIgnoreCase("female") && availableBerth.contains("L")){
             return "L";
         }
@@ -58,7 +62,7 @@ public class TicketBooking {
         return availableBerth.get(0);
     }
 
-    private void cancelTicket(String ticketID){
+    public void cancelTicket(String ticketID){
 
         boolean foundIt = false;
 
@@ -69,8 +73,9 @@ public class TicketBooking {
 
                 if(!racQueue.isEmpty()){
                     Passenger racPassenger = racQueue.poll();
-                    racPassenger.allotedBerth = passenger.allotedBerth;
+                    racPassenger.allotedBerth = allotBerth(racPassenger.gender, racPassenger.age, racPassenger.berthPreference);
                     confirmedPassengers.add(racPassenger);
+                    availableBerth.remove(racPassenger.allotedBerth);    // Remove the alloted berth after giving it to a passenger as it has been occupied
                     System.out.println("RAC passenger moved to Confirmed ticket: "+racPassenger);
                 }
 
@@ -89,7 +94,7 @@ public class TicketBooking {
         }
     }
 
-    private void printTickets(){
+    public void printConfirmedTickets(){
         if(!confirmedPassengers.isEmpty()){
             System.out.println("Confirmed Tickets :- ");
             for (Passenger passenger: confirmedPassengers){
@@ -100,15 +105,15 @@ public class TicketBooking {
         }
     }
 
-    private void availableTickets(){
+    public void printAvailableTickets(){
         System.out.println("Available Berths: "+availableBerth.size());
         System.out.println("Available RAC Tickets: " + (1 - racQueue.size()));
         System.out.println("Available Waiting List Tickets: "+(1 - waitingList.size()));
     }
 
-    private void printRacTickets(){
+    public void printRacTickets(){
         if(!racQueue.isEmpty()){
-            System.out.println("Confirmed Tickets :- ");
+            System.out.println("RAC Tickets :- ");
             for (Passenger passenger: racQueue){
                 System.out.println(passenger);
             }
@@ -117,9 +122,9 @@ public class TicketBooking {
         }
     }
 
-    private void printWaitingListTickets(){
+    public void printWaitingListTickets(){
         if(!waitingList.isEmpty()){
-            System.out.println("Confirmed Tickets :- ");
+            System.out.println("Waiting List Tickets :- ");
             for (Passenger passenger: waitingList){
                 System.out.println(passenger);
             }
