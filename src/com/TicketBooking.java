@@ -89,6 +89,15 @@ public class TicketBooking {
         }
     }
 
-    
+    private void printTickets(){
+        if(!confirmedPassengers.isEmpty()){
+            System.out.println("Confirmed Tickets :- ");
+            for (Passenger passenger: confirmedPassengers){
+                System.out.println(passenger);
+            }
+        }else{
+            System.out.println("NO CONFIRMED BOOKINGS SO FAR...!!!");
+        }
+    }
 
 }
