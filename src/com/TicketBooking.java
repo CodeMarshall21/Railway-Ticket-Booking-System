@@ -1,4 +1,5 @@
 package com;
+import java.sql.SQLOutput;
 import java.util.*;
 
 
@@ -18,7 +19,7 @@ public class TicketBooking {
         Passenger passenger;
 
         if(!availableBerth.isEmpty()){
-            String allotedBerth = allotedBerth(gender, age, berthPreference);
+            String allotedBerth = allotBerth(gender, age, berthPreference);
             passenger = new Passenger(name, age, gender, berthPreference, allotedBerth, ticketId);
 
             confirmedPassengers.add(passenger);     // Add the confirmed passenger if they get the alloted berth
@@ -46,7 +47,7 @@ public class TicketBooking {
 
     }
 
-    private String allotedBerth(String gender, int age ,String berthPreference){
+    private String allotBerth(String gender, int age ,String berthPreference){
         if(age > 60 || gender.equalsIgnoreCase("female") && availableBerth.contains("L")){
             return "L";
         }
@@ -55,6 +56,37 @@ public class TicketBooking {
         }
 
         return availableBerth.get(0);
+    }
+
+    private void cancelTicket(String ticketID){
+
+        boolean foundIt = false;
+
+        for(Passenger passenger: confirmedPassengers){
+            if (passenger.ticketId.equalsIgnoreCase(ticketID)){
+                availableBerth.add(passenger.allotedBerth);
+                confirmedPassengers.remove(passenger);
+
+                if(!racQueue.isEmpty()){
+                    Passenger racPassenger = racQueue.poll();
+                    racPassenger.allotedBerth = passenger.allotedBerth;
+                    confirmedPassengers.add(racPassenger);
+                    System.out.println("RAC passenger moved to Confirmed ticket: "+racPassenger);
+                }
+
+                if(!waitingList.isEmpty()){
+                    Passenger waitingListPassenger = waitingList.poll();
+                    waitingListPassenger.allotedBerth = "RAC";
+                    racQueue.offer(waitingListPassenger);
+                    System.out.println("Waiting List passenger moved to RAC ticket: "+ waitingListPassenger);
+                }
+                foundIt = true;
+                break;
+            }
+        }
+        if(!foundIt){
+            System.out.println("NO CONFIRMED TICKET FOUND WITH GIVEN ID !!!");
+        }
     }
 
     
