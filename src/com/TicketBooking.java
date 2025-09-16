@@ -106,6 +106,16 @@ public class TicketBooking {
         System.out.println("Available Waiting List Tickets: "+(1 - waitingList.size()));
     }
 
-    
+    private void printRacTickets(){
+        if(!racQueue.isEmpty()){
+            System.out.println("Confirmed Tickets :- ");
+            for (Passenger passenger: racQueue){
+                System.out.println(passenger);
+            }
+        }else{
+            System.out.println("NO RAC BOOKINGS SO FAR...!!!");
+        }
+    }
+
 
 }
