@@ -117,5 +117,15 @@ public class TicketBooking {
         }
     }
 
+    private void printWaitingListTickets(){
+        if(!waitingList.isEmpty()){
+            System.out.println("Confirmed Tickets :- ");
+            for (Passenger passenger: waitingList){
+                System.out.println(passenger);
+            }
+        }else{
+            System.out.println("NO WAITING LIST BOOKINGS SO FAR...!!!");
+        }
+    }
 
 }
